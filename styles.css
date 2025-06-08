@@ -779,16 +779,12 @@ body.no-scroll {
 .typing {
   font-size: 1.25rem;
   color: #ffffff;
-  /* white for “I have expertise in” */
-  white-space: nowrap;
   overflow: hidden;
 }
 
-/* Typed text and cursor in gold */
 .typing #auto-type,
 .typing .cursor {
   color: #FFD700;
-  /* golden yellow */
 }
 
 /* Blinking cursor */
