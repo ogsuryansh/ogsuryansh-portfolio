@@ -307,10 +307,10 @@ ul li {
   transform: scale(1.05);
 }
 
-/* clip animated overflow */
 #projects,
 .projects-container {
-  overflow: hidden;
+  overflow-x: hidden; 
+  padding: 5px 0;
 }
 
 /* PROJECT CARDS */
