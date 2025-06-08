@@ -774,12 +774,14 @@ body.no-scroll {
   }
 }
 
-/* ---- Typing Text Styling ---- */
-/* Container text white */
 .typing {
   font-size: 1.25rem;
   color: #ffffff;
-  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  overflow-x: hidden;
 }
 
 .typing #auto-type,
@@ -787,7 +789,6 @@ body.no-scroll {
   color: #FFD700;
 }
 
-/* Blinking cursor */
 .cursor {
   display: inline-block;
   animation: blink 0.8s infinite;
