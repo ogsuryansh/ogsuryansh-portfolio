@@ -66,3 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(typeSkill, pauseBeforeType);
   }
 });
+
+
+// some animation in projects 
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.projects-container .project');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('visible', entry.isIntersecting);
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -200px 0px',  
+    threshold: 0.1
+  });
+
+  cards.forEach(card => observer.observe(card));
+});

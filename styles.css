@@ -324,6 +324,31 @@ ul li {
   width: 300px;
   box-shadow: 0px 0px 15px cyan;
   transition: 0.3s;
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: opacity, transform;
+  transition:
+    opacity 1.5s ease-out,
+    transform 1.5s ease-out;
+}
+
+.projects-container .project:nth-child(1) {
+  transform: translateX(-50px);
+}
+
+.projects-container .project:nth-child(2) {
+  transform: translateY(50px);
+}
+
+.projects-container .project:nth-child(3) {
+  transform: translateX(50px);
+}
+
+.projects-container .project.visible:nth-child(1),
+.projects-container .project.visible:nth-child(2),
+.projects-container .project.visible:nth-child(3) {
+  opacity: 1;
+  transform: translate(0, 0);
 }
 
 .project img {
