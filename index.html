@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suryansh | Web Developer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+  <div id="particles-js"></div> <!-- Animated Background -->
+
+  <header>
+    <nav>
+      <div class="logo">Suryansh</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="hamburger" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HOME (formerly <section id="home">) -->
+  <div id="home">
+    <div class="hero">
+      <h1 class="glow">I'M A <span>WEB DEVELOPER</span></h1>
+      <p>Crafting stunning websites with creative animations.</p>
+      <div class="buttons">
+        <a href="#projects" class="btn">My Work</a>
+        <a href="#" onclick="openPopup()" class="btn">Hire Me</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP FORM -->
+  <div id="popupOverlay">
+    <div class="popup">
+      <span class="closeBtn" onclick="closePopup()">&times;</span>
+      <h2>Get in Touch</h2>
+      <form action="https://formsubmit.co/suryansh1885@gmail.com" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Info about your project" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ABOUT (formerly <section id="about" class="about">) -->
+  <div id="about" class="about">
+    <div class="about-text">
+      <h1 class="glow">About <span>Me</span></h1>
+      <p>
+        Hi, I'm <b>Suryansh</b>. I enjoy building websites that not only work
+        well but also look clean and modern.
+      </p>
+      <p class="forNone">
+        Right now, I’m focusing on <b>frontend development</b> — I’ve got a
+        solid grip on <b>HTML, CSS, and JavaScript</b>, and I'm constantly
+        trying to get better at it.
+      </p>
+      <a href="#projects" class="btn">View My Work</a>
+    </div>
+    <div class="about-image">
+      <img src="project img/dp.jpg" alt="My Image" />
+    </div>
+  </div>
+
+  <!-- PROJECTS (formerly <section id="projects" class="projects">) -->
+  <div id="projects" class="projects">
+    <h1 class="glow">My <span>Projects</span></h1>
+    <div class="projects-container">
+      <div class="project">
+        <h3>Examfusion</h3>
+        <p>Examfusion is study web that also includes payment codes.</p>
+        <a href="https://www.examfusion.in/" target="_blank" class="btn">View Project</a>
+      </div>
+      <div class="project">
+        <h3>Weather App</h3>
+        <p>Weather web made using weather api</p>
+        <a href="https://weatherapp1885.netlify.app/" target="_blank" class="btn">View Project</a>
+      </div>
+      <div class="project">
+        <h3>Tic-Tac-Toe</h3>
+        <p>This is a game built using HTML, CSS and JS with logic.</p>
+        <a href="https://tictactoebyogsuryansh.netlify.app/" target="_blank" class="btn">View Project</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT (formerly <section id="contact" class="contact">) -->
+  <div id="contact" class="contact">
+    <div class="imgContact">
+      <img src="project img/contact.png" alt="" />
+      <h2>CONTACT ME</h2>
+      <p>
+        "Let’s turn your vision into reality — reach out and let’s build something great."
+      </p>
+    </div>
+    <div class="linkContainer">
+      <a class="linkBox" href="https://github.com/ogsuryansh" target="_blank">
+        <div class="icon"><i class="fa-brands fa-github"></i></div>
+        <div class="linkName">Github</div>
+      </a>
+      <a class="linkBox" href="mailto:suryansh1885@gmail.com" target="_blank">
+        <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+        <div class="linkName">Email</div>
+      </a>
+      <a class="linkBox" href="https://t.me/og_suryansh" target="_blank">
+        <div class="icon"><i class="fa-brands fa-telegram"></i></div>
+        <div class="linkName">Telegram</div>
+      </a>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS.load('particles-js', 'particles.json', function () {
+      console.log('Particles.js loaded!');
+    });
+  </script>
+</body>
+
+</html>
