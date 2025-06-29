@@ -83,3 +83,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cards.forEach(card => observer.observe(card));
 });
+
+    const circle = document.querySelector('.cursor-circle');
+    let mouseX = null, mouseY = null;
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    let dx = (Math.random() * 4 + 1) * (Math.random() < 0.5 ? 1 : -1);
+    let dy = (Math.random() * 4 + 1) * (Math.random() < 0.5 ? 1 : -1);
+    let bouncing = false;
+
+    // Move circle to cursor when inside window
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      bouncing = false;
+      circle.style.transition = 'transform 0.05s ease-out';
+      circle.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
+
+    // Start bouncing when mouse leaves
+    document.addEventListener('mouseleave', () => {
+      bouncing = true;
+      // disable smooth transition for bouncing
+      circle.style.transition = 'none';
+    });
+
+    // Also start bouncing if window loses focus
+    window.addEventListener('blur', () => {
+      bouncing = true;
+      circle.style.transition = 'none';
+    });
+
+    function animate() {
+      if (bouncing) {
+        x += dx;
+        y += dy;
+
+        // bounce off edges
+        if (x <= 15 || x >= window.innerWidth - 15) dx = -dx;
+        if (y <= 15 || y >= window.innerHeight - 15) dy = -dy;
+
+        circle.style.transform = `translate(${x}px, ${y}px)`;
+      }
+      requestAnimationFrame(animate);
+    }
+
+    animate();

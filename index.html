@@ -11,6 +11,7 @@
 
 <body>
   <div id="particles-js"></div> <!-- Animated Background -->
+<div class="cursor-circle"></div>
 
   <header>
     <nav>
@@ -144,6 +145,14 @@
       console.log('Particles.js loaded!');
     });
   </script>
+  <script>
+  const circle = document.querySelector('.cursor-circle');
+
+  document.addEventListener('mousemove', (e) => {
+    circle.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+</script>
+
 </body>
 
 </html>
