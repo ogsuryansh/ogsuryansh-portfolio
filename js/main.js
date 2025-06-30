@@ -37,57 +37,190 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const cube = document.querySelector('.cube');
-const container = document.querySelector('.cube-container');
 
-let rotateX = 20, rotateY = 20;
-let isDragging = false;
-let lastX, lastY;
-let autoRotate = true;
+  const cube = document.querySelector('.cube');
+  const container = document.querySelector('.cube-container');
 
-// Only start dragging if mouse is pressed on cube
-cube.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  autoRotate = false;
-  lastX = e.clientX;
-  lastY = e.clientY;
-  document.body.style.cursor = 'grabbing';
-  e.stopPropagation(); // Prevent bubbling to container
-});
+  let rotateX = 20, rotateY = 20;
+  let isDragging = false;
+  let lastX, lastY;
+  let autoRotate = true;
 
-document.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
+  // Mouse drag
+  cube.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    autoRotate = false;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    document.body.style.cursor = 'grabbing';
+    e.stopPropagation();
+  });
 
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
 
-  rotateY += dx * 0.4;
-  rotateX -= dy * 0.4;
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
 
-  rotateX = Math.max(-90, Math.min(90, rotateX)); // Limit rotation if needed
+    rotateY += dx * 0.4;
+    rotateX -= dy * 0.4;
 
-  cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    rotateX = Math.max(-90, Math.min(90, rotateX));
 
-  lastX = e.clientX;
-  lastY = e.clientY;
-});
-
-document.addEventListener('mouseup', () => {
-  if (isDragging) {
-    isDragging = false;
-    autoRotate = true;
-    document.body.style.cursor = 'default';
-  }
-});
-
-// Auto-rotate when not dragging
-function animateCube() {
-  if (autoRotate) {
-    rotateX += 0.1;
-    rotateY += 0.2;
     cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  }
-  requestAnimationFrame(animateCube);
-}
 
-animateCube();
+    lastX = e.clientX;
+    lastY = e.clientY;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      autoRotate = true;
+      document.body.style.cursor = 'default';
+    }
+  });
+
+  // Touch support
+  cube.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    autoRotate = false;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+    e.stopPropagation();
+  });
+
+  cube.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+
+    const touch = e.touches[0];
+    const dx = touch.clientX - lastX;
+    const dy = touch.clientY - lastY;
+
+    rotateY += dx * 0.4;
+    rotateX -= dy * 0.4;
+
+    rotateX = Math.max(-90, Math.min(90, rotateX));
+
+    cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+    lastX = touch.clientX;
+    lastY = touch.clientY;
+  });
+
+  cube.addEventListener('touchend', () => {
+    if (isDragging) {
+      isDragging = false;
+      autoRotate = true;
+    }
+  });
+
+  // Auto-rotate when idle
+  function animateCube() {
+    if (autoRotate) {
+      rotateX += 0.1;
+      rotateY += 0.2;
+      cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+    requestAnimationFrame(animateCube);
+  }
+
+  animateCube();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.service-card');
+    const line = document.querySelector('.services-line');
+    const section = document.querySelector('#services');
+
+    // Draw the vertical line when section comes into view
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting) {
+        line.style.transform = 'scaleY(1)';
+        obs.disconnect();
+      }
+    }, { threshold: 0.2 }).observe(section);
+
+    // Flip cards in/out on scroll
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) {
+          target.classList.add('visible');
+        } else {
+          target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    cards.forEach(card => cardObserver.observe(card));
+  });
+
+
+
+
+
+
+  // ------ slider.js (or append to main.js) ------
+document.addEventListener('DOMContentLoaded', () => {
+  const track     = document.querySelector('.slider-track');
+  const slides    = Array.from(track.children);
+  const prevBtn   = document.querySelector('.slider-btn.prev');
+  const nextBtn   = document.querySelector('.slider-btn.next');
+  const dotsWrap  = document.querySelector('.slider-dots');
+  let slideWidth, visibleCount, maxIndex, currentIndex = 0, autoTimer;
+
+  function updateVisibleCount() {
+    visibleCount = window.innerWidth <= 768 ? 1 : 2;
+    maxIndex = slides.length - visibleCount;
+  }
+
+  function setSlidePositions() {
+    slideWidth = slides[0].getBoundingClientRect().width;
+    slides.forEach((s, i) => { s.style.left = slideWidth * i + 'px'; });
+    updateVisibleCount();
+    goToSlide(currentIndex);
+  }
+
+  // build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    if (i === 0) dot.classList.add('active');
+    dotsWrap.append(dot);
+    dot.addEventListener('click', () => goToSlide(i));
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function goToSlide(idx) {
+    updateVisibleCount();
+    if (idx < 0) idx = maxIndex;
+    if (idx > maxIndex) idx = 0;
+    currentIndex = idx;
+    track.style.transform = `translateX(-${slideWidth * idx}px)`;
+    dots.forEach(d => d.classList.toggle('active', dots.indexOf(d) === idx));
+    resetAuto();
+  }
+
+  prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+  nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+  function startAuto() {
+    autoTimer = setInterval(() => nextBtn.click(), 5000);
+  }
+  function resetAuto() {
+    clearInterval(autoTimer);
+    startAuto();
+  }
+
+  // pause on hover/touch
+  [track, prevBtn, nextBtn].forEach(el => {
+    el.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    el.addEventListener('mouseleave', startAuto);
+    el.addEventListener('touchstart', () => clearInterval(autoTimer));
+    el.addEventListener('touchend', startAuto);
+  });
+
+  // init
+  setSlidePositions();
+  window.addEventListener('resize', setSlidePositions);
+  startAuto();
+});
