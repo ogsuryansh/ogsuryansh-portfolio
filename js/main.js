@@ -156,28 +156,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-
-  // ------ slider.js (or append to main.js) ------
 document.addEventListener('DOMContentLoaded', () => {
-  const track     = document.querySelector('.slider-track');
-  const slides    = Array.from(track.children);
-  const prevBtn   = document.querySelector('.slider-btn.prev');
-  const nextBtn   = document.querySelector('.slider-btn.next');
-  const dotsWrap  = document.querySelector('.slider-dots');
-  let slideWidth, visibleCount, maxIndex, currentIndex = 0, autoTimer;
+  const track      = document.querySelector('.slider-track');
+  const windowDiv  = document.querySelector('.slider-window');
+  const slides     = Array.from(track.children);
+  const prevBtn    = document.querySelector('.slider-btn.prev');
+  const nextBtn    = document.querySelector('.slider-btn.next');
+  const dotsWrap   = document.querySelector('.slider-dots');
+  let visibleCount, maxIndex, currentIndex = 0, autoTimer;
 
-  function updateVisibleCount() {
+  function updateLayout() {
+    // 1. How many slides in view?
     visibleCount = window.innerWidth <= 768 ? 1 : 2;
+    // 2. Compute each slide’s pixel width so N slides fill the window
+    const windowWidth = windowDiv.getBoundingClientRect().width;
+    const slideWidth  = windowWidth / visibleCount;
+    // 3. Apply that width (including your 40px padding via box‑sizing)
+    slides.forEach((slide, i) => {
+      slide.style.minWidth = `${slideWidth}px`;
+      slide.style.left     = `${slideWidth * i}px`;
+    });
     maxIndex = slides.length - visibleCount;
-  }
-
-  function setSlidePositions() {
-    slideWidth = slides[0].getBoundingClientRect().width;
-    slides.forEach((s, i) => { s.style.left = slideWidth * i + 'px'; });
-    updateVisibleCount();
-    goToSlide(currentIndex);
+    // 4. Jump back to whatever slide we’re on
+    goToSlide(currentIndex, /* skipReset = */ true);
   }
 
   // build dots
@@ -190,14 +191,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   const dots = Array.from(dotsWrap.children);
 
-  function goToSlide(idx) {
-    updateVisibleCount();
-    if (idx < 0) idx = maxIndex;
-    if (idx > maxIndex) idx = 0;
+  function goToSlide(idx, skipReset = false) {
+    if (idx < 0)              idx = maxIndex;
+    else if (idx > maxIndex)  idx = 0;
     currentIndex = idx;
-    track.style.transform = `translateX(-${slideWidth * idx}px)`;
-    dots.forEach(d => d.classList.toggle('active', dots.indexOf(d) === idx));
-    resetAuto();
+    // we already set left positions; just translate
+    const left = slides[0].getBoundingClientRect().width * idx;
+    track.style.transform = `translateX(-${left}px)`;
+    dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+    if (!skipReset) resetAuto();
   }
 
   prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
@@ -210,17 +212,15 @@ document.addEventListener('DOMContentLoaded', () => {
     clearInterval(autoTimer);
     startAuto();
   }
-
-  // pause on hover/touch
   [track, prevBtn, nextBtn].forEach(el => {
     el.addEventListener('mouseenter', () => clearInterval(autoTimer));
     el.addEventListener('mouseleave', startAuto);
-    el.addEventListener('touchstart', () => clearInterval(autoTimer));
-    el.addEventListener('touchend', startAuto);
+    el.addEventListener('touchstart',  () => clearInterval(autoTimer));
+    el.addEventListener('touchend',    startAuto);
   });
 
-  // init
-  setSlidePositions();
-  window.addEventListener('resize', setSlidePositions);
+  // init + reflow on resize
+  updateLayout();
+  window.addEventListener('resize', updateLayout);
   startAuto();
 });

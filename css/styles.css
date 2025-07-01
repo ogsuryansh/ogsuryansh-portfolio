@@ -106,6 +106,8 @@ a {
 .contact-btn:hover {
   background: var(--accent);
   color: #000;
+  padding: 8px 16px !important;
+  border-radius: 40px !important;
 }
 
 .theme-toggle {
@@ -709,9 +711,18 @@ body.light-theme .theme-toggle .moon {
 .slide-card {
   flex: 0 0 50%;
   box-sizing: border-box;
-  padding: 0 20px;
   text-align: left;
+  padding: 40px;
 }
+
+.project-video {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
 .slide-card img {
   width: 100%;
   max-height: 180px;
