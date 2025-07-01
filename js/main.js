@@ -224,3 +224,31 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', updateLayout);
   startAuto();
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const openBtn  = document.querySelector('.contact-btn');
+  const modal    = document.getElementById('contact-modal');
+  const closeBtn = modal.querySelector('.modal-close');
+
+  // Open the modal
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  });
+
+  // Close via “×” button
+  closeBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  });
+
+  // Close when clicking outside the modal-content
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+      document.body.classList.remove('no-scroll');
+    }
+  });
+});
