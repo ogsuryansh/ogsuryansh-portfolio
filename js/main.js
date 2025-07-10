@@ -29,7 +29,7 @@ hamburger.addEventListener('click', () => {
 document.addEventListener("DOMContentLoaded", () => {
   // Typed.js - Auto typing effect
   const typed = new Typed('#typed-text', {
-    strings: ['Developer', 'Specialised in Frontend Expert' , 'Full Stack developer','Coder'],
+    strings: ['Developer', 'Specialised in Frontend Development' , 'Full Stack developer','Coder'],
     typeSpeed: 80,
     backSpeed: 40,
     backDelay: 1500,
