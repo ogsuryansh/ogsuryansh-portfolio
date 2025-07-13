@@ -29,6 +29,11 @@ html {
   padding: 0;
   box-sizing: border-box;
 }
+img.favicon {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+}
 
 body {
   background: var(--bg-image);
