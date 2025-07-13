@@ -680,114 +680,112 @@ body.light-theme .theme-toggle .moon {
   .service-card::before {
     display: none;
   }
-}
-/* Slider Container */
+}/* Slider Container */
 .work-slider {
   position: relative;
   padding: 60px 10%;
-  background: var(--bg-image);
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   overflow: hidden;
   text-align: center;
+  backdrop-filter: blur(5px);
 }
 
 /* Heading */
 .section-title {
-  font-size: 2.5rem;
-  color: var(--accent);
-  margin-bottom: 30px;
+  font-size: 2.8rem;
+  color: #ffffff;
+  margin-bottom: 40px;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 /* Window & Track */
 .slider-window {
   overflow: hidden;
+  
 }
 .slider-track {
+  width: 70%;
   display: flex;
+  gap: 40px;
   transition: transform 0.8s ease;
-  position: relative;
+  will-change: transform;
 }
+
 
 /* Slide */
 .slide-card {
   flex: 0 0 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
   box-sizing: border-box;
   text-align: left;
-  padding: 40px;
+  padding: 30px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-.project-video {
+.slide-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.project-video  {
   width: 100%;
-  max-height: 180px;
+  max-height: 200px;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 15px;
 }
 
-.slide-card img {
-  width: 100%;
-  max-height: 180px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 15px;
-}
-
+/* Titles and Paragraphs */
 .slide-card h3 {
   margin: 10px 0 6px;
-  color: var(--accent);
-  font-size: 1.3rem;
+  color: #ffffff;
+  font-size: 1.5rem;
 }
 .slide-card p {
-  font-size: 0.95rem;
-  color: var(--text-color);
-  margin-bottom: 12px;
+  font-size: 1rem;
+  color: #dcdcdc;
+  margin-bottom: 14px;
 }
 
-/* Tech‐stack list */
+/* Tech Stack List */
 .card-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
   list-style: none;
   padding: 0;
 }
 .card-tech li {
   font-size: 0.85rem;
-  color: var(--text-color);
-  background: rgba(0, 119, 204, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--accent);
-}
-
-.tech-btn {
-  background: var(--accent);
-  color: #fff;
-  border: none;
+  color: #ffffff;
+  background: rgba(0, 119, 204, 0.3);
   padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.tech-btn:hover {
-  background: #005fa3;
+  border-radius: 6px;
+  border: 1px solid #0077cc;
 }
 
-/* Prev/Next */
+/* Prev/Next Buttons */
 .slider-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 119, 204, 0.7);
+  background: #0077cc;
   border: none;
   color: #fff;
-  font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
+  font-size: 1.6rem;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 2;
+  box-shadow: 0 4px 12px rgba(0, 119, 204, 0.4);
+  transition: background 0.3s, transform 0.2s;
+}
+.slider-btn:hover {
+  background: #005fa3;
 }
 .slider-btn.prev {
   left: 10px;
@@ -798,27 +796,34 @@ body.light-theme .theme-toggle .moon {
 
 /* Dots */
 .slider-dots {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 .slider-dots .dot {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   margin: 0 6px;
-  background: rgba(0, 119, 204, 0.4);
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s;
 }
 .slider-dots .dot.active {
-  background: var(--accent);
+  background: #00bfff;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px #00bfff;
 }
 
 /* Mobile: 1 slide */
 @media (max-width: 768px) {
   .slide-card {
     flex: 0 0 100%;
-    padding: 0 10px;
+    padding: 20px;
+  }
+  .slider-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
   }
 }
 

@@ -1,0 +1,115 @@
+<!-- contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact | OG Suryansh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-image: linear-gradient(135deg, #000000, #001f4d);
+      --text-color: #ffffff;
+      --nav-bg: rgba(0, 0, 20, 0.8);
+      --accent: #00aaff;
+      --border-color: #555;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-image);
+      color: var(--text-color);
+    }
+
+    .contact-container {
+      max-width: 700px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background-color: #111;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--accent);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #222;
+      color: var(--text-color);
+      font-size: 1rem;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #aaa;
+    }
+
+    button {
+      padding: 12px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0088cc;
+    }
+
+    .social-links {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .social-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .contact-container {
+        margin: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-container">
+    <h1>Contact Me</h1>
+    <form action="https://formsubmit.com/suryansh1885@gmail.com" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="social-links">
+      <p>Or connect with me on:</p>
+      <a href="https://github.com/ogsuryansh" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/ogsuryansh" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</body>
+</html>
