@@ -881,7 +881,8 @@ body.light-theme .theme-toggle .moon {
   box-shadow: 0 0 15px var(--accent);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  
   .work-slider {
     padding: 60px 4% 60px;
     perspective: 1200px;
@@ -910,12 +911,17 @@ body.light-theme .theme-toggle .moon {
     height: auto;
   }
   .slider-window {
-    min-height: clamp(200px, 60vh, 450px);
+    min-height: clamp(200px, 60vh, 350px);
+    margin: 0;
   }
   .card-tech li {
     padding: 2px 6px;
     font-size: 10px;
   }
+  .slider-track{
+    height: 0 !important;
+  }
+  
 }
 
 @media (max-width: 480px) {
