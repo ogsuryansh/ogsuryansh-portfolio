@@ -163,77 +163,107 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cards.forEach((card) => cardObserver.observe(card));
 });
-
-document.addEventListener("DOMContentLoaded", () => {
-  const track = document.querySelector(".slider-track");
-  const windowDiv = document.querySelector(".slider-window");
-  const slides = Array.from(track.children);
-  const prevBtn = document.querySelector(".slider-btn.prev");
-  const nextBtn = document.querySelector(".slider-btn.next");
-  const dotsWrap = document.querySelector(".slider-dots");
-  let visibleCount,
-    maxIndex,
-    currentIndex = 0,
-    autoTimer;
-
-  function updateLayout() {
-    visibleCount = window.innerWidth <= 768 ? 1 : 2;
-    const windowWidth = windowDiv.getBoundingClientRect().width;
-    const slideWidth = windowWidth / visibleCount;
-
-    slides.forEach((slide) => {
-      slide.style.minWidth = `${slideWidth}px`;
-      slide.style.width = `${slideWidth}px`;
+// Dynamic 3D Carousel for any number of cards
+document.addEventListener('DOMContentLoaded', function() {
+  const track = document.querySelector('.slider-track');
+  const slides = document.querySelectorAll('.slide-card');
+  const dotsContainer = document.querySelector('.slider-dots');
+  const prevBtn = document.querySelector('.slider-btn.prev');
+  const nextBtn = document.querySelector('.slider-btn.next');
+  
+  let currentIndex = 0; // Start with first slide
+  
+  // Create dots based on number of slides
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+    slides.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (index === currentIndex) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
     });
-
-    maxIndex = slides.length - visibleCount;
-    goToSlide(currentIndex, true);
   }
-
-  // build dots
-  slides.forEach((_, i) => {
-    const dot = document.createElement("span");
-    dot.className = "dot";
-    if (i === 0) dot.classList.add("active");
-    dotsWrap.append(dot);
-    dot.addEventListener("click", () => goToSlide(i));
-  });
-  const dots = Array.from(dotsWrap.children);
-
-  function goToSlide(idx, skipReset = false) {
-    if (idx < 0) idx = maxIndex;
-    else if (idx > maxIndex) idx = 0;
-    currentIndex = idx;
-
-    const slideWidth = slides[0].getBoundingClientRect().width;
-    const gap = 30; // match your CSS .slider-track gap
-    const offset = idx * (slideWidth + gap);
-
-    track.style.transform = `translateX(-${offset}px)`;
-
-    dots.forEach((d, i) => d.classList.toggle("active", i === idx));
-    if (!skipReset) resetAuto();
+  
+  // Initialize
+  updateSlides();
+  
+  // Event listeners
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+  
+  function prevSlide() {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+    updateSlides();
   }
-
-  prevBtn.addEventListener("click", () => goToSlide(currentIndex - 1));
-  nextBtn.addEventListener("click", () => goToSlide(currentIndex + 1));
-
-  function startAuto() {
-    autoTimer = setInterval(() => nextBtn.click(), 5000);
+  
+  function nextSlide() {
+    currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+    updateSlides();
   }
-  function resetAuto() {
-    clearInterval(autoTimer);
-    startAuto();
+  
+  function goToSlide(index) {
+    currentIndex = index;
+    updateSlides();
   }
-  [track, prevBtn, nextBtn].forEach((el) => {
-    el.addEventListener("mouseenter", () => clearInterval(autoTimer));
-    el.addEventListener("mouseleave", startAuto);
-    el.addEventListener("touchstart", () => clearInterval(autoTimer));
-    el.addEventListener("touchend", startAuto);
-  });
-
-  // init + reflow on resize
-  updateLayout();
-  window.addEventListener("resize", updateLayout);
-  startAuto();
+  
+  function updateSlides() {
+    // Update slide positions and active states
+    slides.forEach((slide, index) => {
+      // Remove any existing active class
+      slide.classList.remove('active');
+      
+      // Calculate distance from current active slide
+      let distanceFromActive = index - currentIndex;
+      
+      // For looping effect - handle distance when wrapping around
+      if (distanceFromActive > slides.length / 2) {
+        distanceFromActive -= slides.length;
+      } else if (distanceFromActive < -slides.length / 2) {
+        distanceFromActive += slides.length;
+      }
+      
+      // Calculate positions based on distance
+      let xPosition, zPosition, yRotation, opacity, zIndex;
+      
+      // Apply transforms based on position
+      if (distanceFromActive === 0) {
+        // Active slide
+        xPosition = 0;
+        zPosition = 200;
+        yRotation = 0;
+        opacity = 1;
+        zIndex = slides.length + 1;
+        slide.classList.add('active');
+      } else if (distanceFromActive < 0) {
+        // Slides to the left
+        xPosition = distanceFromActive * 90; // Each slide 90% to the left
+        zPosition = -100;
+        yRotation = 30; // Rotate 30deg
+        opacity = 0.5;
+        zIndex = slides.length - Math.abs(distanceFromActive);
+      } else {
+        // Slides to the right
+        xPosition = distanceFromActive * 90; // Each slide 90% to the right
+        zPosition = -100;
+        yRotation = -30; // Rotate -30deg
+        opacity = 0.5;
+        zIndex = slides.length - Math.abs(distanceFromActive);
+      }
+      
+      // Apply all transforms
+      slide.style.transform = `translateX(${xPosition}%) rotateY(${yRotation}deg) translateZ(${zPosition}px)`;
+      slide.style.opacity = opacity;
+      slide.style.zIndex = zIndex;
+    });
+    
+    // Update dots
+    const dots = document.querySelectorAll('.slider-dots .dot');
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  }
+  
+  // Handle window resize
+  window.addEventListener('resize', updateSlides);
 });
