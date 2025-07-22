@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Developer",
       "Specialised in Frontend Development",
       "Full Stack developer",
-      "Coder",
+      "React js Coder",
     ],
     typeSpeed: 80,
     backSpeed: 40,
@@ -164,68 +164,68 @@ document.addEventListener("DOMContentLoaded", () => {
   cards.forEach((card) => cardObserver.observe(card));
 });
 // Dynamic 3D Carousel for any number of cards
-document.addEventListener('DOMContentLoaded', function() {
-  const track = document.querySelector('.slider-track');
-  const slides = document.querySelectorAll('.slide-card');
-  const dotsContainer = document.querySelector('.slider-dots');
-  const prevBtn = document.querySelector('.slider-btn.prev');
-  const nextBtn = document.querySelector('.slider-btn.next');
-  
+document.addEventListener("DOMContentLoaded", function () {
+  const track = document.querySelector(".slider-track");
+  const slides = document.querySelectorAll(".slide-card");
+  const dotsContainer = document.querySelector(".slider-dots");
+  const prevBtn = document.querySelector(".slider-btn.prev");
+  const nextBtn = document.querySelector(".slider-btn.next");
+
   let currentIndex = 0; // Start with first slide
-  
+
   // Create dots based on number of slides
   if (dotsContainer) {
-    dotsContainer.innerHTML = '';
+    dotsContainer.innerHTML = "";
     slides.forEach((_, index) => {
-      const dot = document.createElement('div');
-      dot.classList.add('dot');
-      if (index === currentIndex) dot.classList.add('active');
-      dot.addEventListener('click', () => goToSlide(index));
+      const dot = document.createElement("div");
+      dot.classList.add("dot");
+      if (index === currentIndex) dot.classList.add("active");
+      dot.addEventListener("click", () => goToSlide(index));
       dotsContainer.appendChild(dot);
     });
   }
-  
+
   // Initialize
   updateSlides();
-  
+
   // Event listeners
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-  
+  if (prevBtn) prevBtn.addEventListener("click", prevSlide);
+  if (nextBtn) nextBtn.addEventListener("click", nextSlide);
+
   function prevSlide() {
-    currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+    currentIndex = currentIndex > 0 ? currentIndex - 1 : slides.length - 1;
     updateSlides();
   }
-  
+
   function nextSlide() {
-    currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+    currentIndex = currentIndex < slides.length - 1 ? currentIndex + 1 : 0;
     updateSlides();
   }
-  
+
   function goToSlide(index) {
     currentIndex = index;
     updateSlides();
   }
-  
+
   function updateSlides() {
     // Update slide positions and active states
     slides.forEach((slide, index) => {
       // Remove any existing active class
-      slide.classList.remove('active');
-      
+      slide.classList.remove("active");
+
       // Calculate distance from current active slide
       let distanceFromActive = index - currentIndex;
-      
+
       // For looping effect - handle distance when wrapping around
       if (distanceFromActive > slides.length / 2) {
         distanceFromActive -= slides.length;
       } else if (distanceFromActive < -slides.length / 2) {
         distanceFromActive += slides.length;
       }
-      
+
       // Calculate positions based on distance
       let xPosition, zPosition, yRotation, opacity, zIndex;
-      
+
       // Apply transforms based on position
       if (distanceFromActive === 0) {
         // Active slide
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         yRotation = 0;
         opacity = 1;
         zIndex = slides.length + 1;
-        slide.classList.add('active');
+        slide.classList.add("active");
       } else if (distanceFromActive < 0) {
         // Slides to the left
         xPosition = distanceFromActive * 90; // Each slide 90% to the left
@@ -250,20 +250,20 @@ document.addEventListener('DOMContentLoaded', function() {
         opacity = 0.5;
         zIndex = slides.length - Math.abs(distanceFromActive);
       }
-      
+
       // Apply all transforms
       slide.style.transform = `translateX(${xPosition}%) rotateY(${yRotation}deg) translateZ(${zPosition}px)`;
       slide.style.opacity = opacity;
       slide.style.zIndex = zIndex;
     });
-    
+
     // Update dots
-    const dots = document.querySelectorAll('.slider-dots .dot');
+    const dots = document.querySelectorAll(".slider-dots .dot");
     dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentIndex);
+      dot.classList.toggle("active", index === currentIndex);
     });
   }
-  
+
   // Handle window resize
-  window.addEventListener('resize', updateSlides);
+  window.addEventListener("resize", updateSlides);
 });
