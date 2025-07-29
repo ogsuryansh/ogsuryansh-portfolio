@@ -3,30 +3,117 @@ const toggle = document.querySelector(".theme-toggle");
 const hamburger = document.querySelector(".hamburger");
 const navLinks = document.querySelector(".nav-links");
 
-// Load theme from localStorage
+function createParticles() {
+  const particlesContainer = document.getElementById('particles-bg');
+  const particleCount = 50;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    
+    const size = Math.random() * 3 + 2;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    
+    particle.style.animationDelay = Math.random() * 6 + 's';
+    
+    particlesContainer.appendChild(particle);
+  }
+}
+
+function enhanceHeroText() {
+  const heroTitle = document.querySelector('.hero-right h1');
+  if (heroTitle) {
+    const text = heroTitle.textContent;
+    heroTitle.setAttribute('data-text', text);
+  }
+}
+
+function createDynamicParticles() {
+  const particlesContainer = document.getElementById('particles-bg');
+  const dynamicParticleCount = 20;
+  
+  for (let i = 0; i < dynamicParticleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'dynamic-particle';
+    
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    
+    particle.style.animationDelay = Math.random() * 8 + 's';
+    
+    particlesContainer.appendChild(particle);
+  }
+}
+
+function initParallax() {
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const heroLeft = document.querySelector('.hero-left');
+    const heroRight = document.querySelector('.hero-right');
+    
+    if (heroLeft && heroRight) {
+      heroLeft.style.transform = `translateZ(${scrolled * 0.1}px)`;
+      heroRight.style.transform = `translateZ(${scrolled * -0.1}px)`;
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  createParticles();
+  createMouseTrail();
+  enhanceHeroText();
+  createDynamicParticles();
+  initParallax();
+});
+
+function createMouseTrail() {
+  const trailContainer = document.getElementById('mouse-trail');
+  let mouseX = 0, mouseY = 0;
+  let trailParticles = [];
+  
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    if (Math.random() > 0.7) {
+      const particle = document.createElement('div');
+      particle.className = 'trail-particle';
+      particle.style.left = mouseX + 'px';
+      particle.style.top = mouseY + 'px';
+      
+      trailContainer.appendChild(particle);
+      
+      setTimeout(() => {
+        if (particle.parentNode) {
+          particle.parentNode.removeChild(particle);
+        }
+      }, 1000);
+    }
+  });
+}
+
 if (localStorage.getItem("theme") === "light") {
   body.classList.add("light-theme");
 }
 
-// Toggle theme on click
 toggle.addEventListener("click", () => {
   body.classList.toggle("light-theme");
 
-  // Save preference
   const theme = body.classList.contains("light-theme") ? "light" : "dark";
   localStorage.setItem("theme", theme);
 });
 
-// Hamburger menu toggle
 hamburger.addEventListener("click", () => {
   navLinks.classList.toggle("active");
 
-  // Toggle ☰ and ✖ icons
   hamburger.textContent = hamburger.textContent === "☰" ? "✖" : "☰";
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Typed.js - Auto typing effect
   const typed = new Typed("#typed-text", {
     strings: [
       "Developer",
@@ -50,7 +137,6 @@ let isDragging = false;
 let lastX, lastY;
 let autoRotate = true;
 
-// Mouse drag
 cube.addEventListener("mousedown", (e) => {
   isDragging = true;
   autoRotate = false;
@@ -85,7 +171,6 @@ document.addEventListener("mouseup", () => {
   }
 });
 
-// Touch support
 cube.addEventListener("touchstart", (e) => {
   isDragging = true;
   autoRotate = false;
@@ -119,7 +204,6 @@ cube.addEventListener("touchend", () => {
   }
 });
 
-// Auto-rotate when idle
 function animateCube() {
   if (autoRotate) {
     rotateX += 0.1;
@@ -136,7 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const line = document.querySelector(".services-line");
   const section = document.querySelector("#services");
 
-  // Draw the vertical line when section comes into view
   new IntersectionObserver(
     (entries, obs) => {
       if (entries[0].isIntersecting) {
@@ -147,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { threshold: 0.2 }
   ).observe(section);
 
-  // Flip cards in/out on scroll
   const cardObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach(({ target, isIntersecting }) => {
@@ -163,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cards.forEach((card) => cardObserver.observe(card));
 });
-// Dynamic 3D Carousel for any number of cards
+
 document.addEventListener("DOMContentLoaded", function () {
   const track = document.querySelector(".slider-track");
   const slides = document.querySelectorAll(".slide-card");
@@ -171,9 +253,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const prevBtn = document.querySelector(".slider-btn.prev");
   const nextBtn = document.querySelector(".slider-btn.next");
 
-  let currentIndex = 0; // Start with first slide
+  let currentIndex = 0;
 
-  // Create dots based on number of slides
   if (dotsContainer) {
     dotsContainer.innerHTML = "";
     slides.forEach((_, index) => {
@@ -185,10 +266,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Initialize
   updateSlides();
 
-  // Event listeners
   if (prevBtn) prevBtn.addEventListener("click", prevSlide);
   if (nextBtn) nextBtn.addEventListener("click", nextSlide);
 
@@ -208,27 +287,20 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function updateSlides() {
-    // Update slide positions and active states
     slides.forEach((slide, index) => {
-      // Remove any existing active class
       slide.classList.remove("active");
 
-      // Calculate distance from current active slide
       let distanceFromActive = index - currentIndex;
 
-      // For looping effect - handle distance when wrapping around
       if (distanceFromActive > slides.length / 2) {
         distanceFromActive -= slides.length;
       } else if (distanceFromActive < -slides.length / 2) {
         distanceFromActive += slides.length;
       }
 
-      // Calculate positions based on distance
       let xPosition, zPosition, yRotation, opacity, zIndex;
 
-      // Apply transforms based on position
       if (distanceFromActive === 0) {
-        // Active slide
         xPosition = 0;
         zPosition = 200;
         yRotation = 0;
@@ -236,34 +308,29 @@ document.addEventListener("DOMContentLoaded", function () {
         zIndex = slides.length + 1;
         slide.classList.add("active");
       } else if (distanceFromActive < 0) {
-        // Slides to the left
-        xPosition = distanceFromActive * 90; // Each slide 90% to the left
+        xPosition = distanceFromActive * 90;
         zPosition = -100;
-        yRotation = 30; // Rotate 30deg
+        yRotation = 30;
         opacity = 0.5;
         zIndex = slides.length - Math.abs(distanceFromActive);
       } else {
-        // Slides to the right
-        xPosition = distanceFromActive * 90; // Each slide 90% to the right
+        xPosition = distanceFromActive * 90;
         zPosition = -100;
-        yRotation = -30; // Rotate -30deg
+        yRotation = -30;
         opacity = 0.5;
         zIndex = slides.length - Math.abs(distanceFromActive);
       }
 
-      // Apply all transforms
       slide.style.transform = `translateX(${xPosition}%) rotateY(${yRotation}deg) translateZ(${zPosition}px)`;
       slide.style.opacity = opacity;
       slide.style.zIndex = zIndex;
     });
 
-    // Update dots
     const dots = document.querySelectorAll(".slider-dots .dot");
     dots.forEach((dot, index) => {
       dot.classList.toggle("active", index === currentIndex);
     });
   }
 
-  // Handle window resize
   window.addEventListener("resize", updateSlides);
 });
